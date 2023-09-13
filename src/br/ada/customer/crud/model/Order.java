@@ -1,9 +1,10 @@
 package br.ada.customer.crud.model;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class Order {
+public class Order implements Serializable, Comparable<Order>  {
 
     private Long id;
     private Customer customer;
@@ -58,5 +59,10 @@ public class Order {
 
     public void setShippingAddress(String shippingAddress) {
         this.shippingAddress = shippingAddress;
+    }
+
+    @Override
+    public int compareTo(Order other) {
+        return this.id.compareTo(other.id);
     }
 }

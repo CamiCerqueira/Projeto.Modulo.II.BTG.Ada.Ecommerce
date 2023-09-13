@@ -3,7 +3,7 @@ package br.ada.customer.crud.model;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class Product implements Serializable {
+public class Product implements Serializable, Comparable<Product> {
 
     private Long id;
     private String description;
@@ -41,4 +41,10 @@ public class Product implements Serializable {
     public void setPrice(BigDecimal price) {
         this.price = price;
     }
+
+    @Override
+    public int compareTo(Product other) {
+        return this.id.compareTo(other.id);
+    }
+
 }

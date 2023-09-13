@@ -9,6 +9,9 @@ import br.ada.customer.crud.model.Product;
 import br.ada.customer.crud.usecases.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class ExampleOrderMain {
 
@@ -16,32 +19,37 @@ public class ExampleOrderMain {
         IProductUseCase productUseCase = ProductFactory.createUseCase();
         ICustomerUseCase customerUseCase = CustomerFactory.createUseCase();
         ICreateOrderUseCase orderUseCase = OrderFactory.createUseCase();
-        IOrderItemUseCase orderItemUseCase = OrderFactory.orderItemUseCase();
+        IOrderRemoveItemUseCase orderRemoveItemUseCase = OrderFactory.orderRemoveItemUseCase();
+        IOrderChangeItemUseCase orderChangeItemUseCase = OrderFactory.orderChangeItemUseCase();
         IOrderPlaceUseCase orderPlaceUseCase = OrderFactory.placeOrderUseCase();
-        IOrderPayUseCase orderPayUseCase = OrderFactory.payOrderUseCase();
+        IOrderPaymentUseCase orderPayUseCase = OrderFactory.payOrderUseCase();
         IOrderShippingUseCase orderShipping = OrderFactory.shippingUseCase();
+        IOrderAddItemUseCase orderItemUseCase = OrderFactory.orderAddItemUseCase();
 
         Customer customer = new Customer();
-        customer.setName("William");
+        customer.setName("Camila");
+        customer.setEmail(Collections.singletonList("camilaroberia@gmail.com"));
+        customer.setTelephone(Collections.singletonList("11991115535"));
+        customer.setBirthDate(LocalDate.of(1990, 1, 26));
         customerUseCase.create(customer);
 
         Product productOne = new Product();
-        productOne.setDescription("023");
+        productOne.setDescription("Unicórnio de Pelúcia");
         productUseCase.create(productOne);
 
         Product productTwo = new Product();
-        productTwo.setDescription("1546");
+        productTwo.setDescription("Blocos de Madeira");
         productUseCase.create(productTwo);
 
         Product productThree = new Product();
-        productThree.setDescription("516");
+        productThree.setDescription("Livro Interativo");
         productUseCase.create(productThree);
 
         Order order = orderUseCase.create(customer);
         orderItemUseCase.addItem(order, productOne, BigDecimal.TEN, 1);
         orderItemUseCase.addItem(order, productTwo, BigDecimal.TEN, 2);
-        orderItemUseCase.changeAmount(order, productTwo, 5);
-        orderItemUseCase.removeItem(order, productOne);
+        orderChangeItemUseCase.changeAmount(order, productTwo, 5);
+        orderRemoveItemUseCase.removeItem(order, productOne);
         orderPlaceUseCase.placeOrder(order);
         orderPayUseCase.pay(order);
         orderShipping.shipping(order);
